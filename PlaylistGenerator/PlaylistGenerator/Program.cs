@@ -95,10 +95,16 @@ namespace PlaylistGenerator
             {
                 var currentDirectory = stack.Dequeue();
 
-                foreach (var directory in currentDirectory.EnumerateDirectories().OrderBy(info => info.Name.Length).ThenBy(info => info.Name))
+                var directories = currentDirectory
+                    .EnumerateDirectories()
+                    .OrderBy(info => info.Name)
+                    .ThenBy(info => info.Name);
+
+                foreach (var directory in directories)
                     stack.Enqueue(directory);
 
-                var files = currentDirectory.EnumerateFiles()
+                var files = currentDirectory
+                    .EnumerateFiles()
                     .Where(info => acceptedExtensions.Contains(Path.GetExtension(info.FullName)));
 
                 foreach (var file in files)
