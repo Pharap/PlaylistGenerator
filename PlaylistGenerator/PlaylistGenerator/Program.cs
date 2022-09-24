@@ -64,6 +64,11 @@ namespace PlaylistGenerator
             return args.Select(path => new FileInfo(path)).Where(info => info.Exists).ToArray();
         }
 
+        static void Process(IEnumerable<FileInfo> files)
+        {
+            Process(new DirectoryInfo(Environment.CurrentDirectory), files);
+        }
+
         static DirectoryInfo[] GetDirectories(IEnumerable<string> args)
         {
             return args.Select(path => new DirectoryInfo(path)).Where(info => info.Exists).ToArray();
@@ -105,11 +110,6 @@ namespace PlaylistGenerator
         {
             ".mp4", ".mkv", ".webm"
         };
-
-        static void Process(IEnumerable<FileInfo> files)
-        {
-            Process(new DirectoryInfo(Environment.CurrentDirectory), files);
-        }
 
         static void Process(DirectoryInfo directory, IEnumerable<FileInfo> files)
         {
