@@ -105,14 +105,14 @@ namespace PlaylistGenerator
 
                 var files = currentDirectory
                     .EnumerateFiles()
-                    .Where(info => acceptedExtensions.Contains(Path.GetExtension(info.FullName)));
+                    .Where(info => videoExtensions.Contains(Path.GetExtension(info.FullName)));
 
                 foreach (var file in files)
                     yield return file;
             }
         }
 
-        static readonly HashSet<string> acceptedExtensions = new HashSet<string>
+        static readonly HashSet<string> videoExtensions = new HashSet<string>
         {
             ".mp4", ".mkv", ".webm"
         };
