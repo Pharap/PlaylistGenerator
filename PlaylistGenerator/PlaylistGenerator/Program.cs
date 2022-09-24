@@ -163,7 +163,7 @@ namespace PlaylistGenerator
 
                 writer.WriteElementString("trackNum", trackNum.ToString());
                 writer.WriteElementString("title", Path.GetFileNameWithoutExtension(video.Name));
-                writer.WriteElementString("location", MakeRelativeUri(video));
+                writer.WriteElementString("location", MakeRelativeUri(root, video));
 
                 var fileName = Path.GetFileNameWithoutExtension(video.Name);
 
@@ -180,7 +180,7 @@ namespace PlaylistGenerator
                 {
                     FileInfo imageFile;
                     if (relatives.TryGetValue(".jpg", out imageFile))
-                        writer.WriteElementString("image", MakeRelativeUri(imageFile));
+                        writer.WriteElementString("image", MakeRelativeUri(root, imageFile));
                 }
 
                 writer.WriteEndElement();
@@ -192,9 +192,18 @@ namespace PlaylistGenerator
             ".png", ".jpg", ".jpeg"
         };
 
-        static string MakeRelativeUri(FileInfo info)
+        static string MakeRelativeUri(DirectoryInfo rootDirectory, FileInfo file)
         {
-            return (Uri.EscapeUriString(info.Directory.Name) + "/" + Uri.EscapeUriString(info.Name));
+            int start = file.FullName.IndexOf(rootDirectory.FullName);
+
+            if (start == -1)
+                throw new Exception("FileInfo was not contained in DirectoryInfo");
+
+            int end = start + rootDirectory.FullName.Length;
+
+            string relative = file.FullName.Substring(end);
+
+            return Uri.EscapeUriString(relative).Replace("#", "%23");
         }
     }
 }
