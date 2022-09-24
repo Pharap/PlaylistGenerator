@@ -143,7 +143,7 @@ namespace PlaylistGenerator
 
         static XmlWriter CreateWriter(DirectoryInfo directory)
         {
-            var writerPath = Path.Combine(directory.Parent.FullName, directory.Name + ".xspf");
+            var writerPath = Path.Combine(directory.FullName, directory.Name + ".xspf");
 
             var settings = new XmlWriterSettings()
             {
