@@ -169,19 +169,14 @@ namespace PlaylistGenerator
 
                 var relatives = video.Directory
                     .EnumerateFiles(fileName + ".*")
-                    .ToDictionary(info => Path.GetExtension(info.FullName));
+                    .ToLookup(info => Path.GetExtension(info.FullName));
 
-                {
-                    FileInfo descriptionFile;
-                    if (relatives.TryGetValue(".description", out descriptionFile))
-                        writer.WriteElementString("annotation", File.ReadAllText(descriptionFile.FullName));
-                }
+                foreach (var descriptionFile in relatives[".description"])
+                    writer.WriteElementString("annotation", File.ReadAllText(descriptionFile.FullName));
 
-                {
-                    FileInfo imageFile;
-                    if (relatives.TryGetValue(".jpg", out imageFile))
+                foreach (var imageExtension in imageExtensions)
+                    foreach (var imageFile in relatives[imageExtension])
                         writer.WriteElementString("image", MakeRelativeUri(root, imageFile));
-                }
 
                 writer.WriteEndElement();
             }
