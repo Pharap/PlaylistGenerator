@@ -105,7 +105,9 @@ namespace PlaylistGenerator
 
                 var files = currentDirectory
                     .EnumerateFiles()
-                    .Where(info => videoExtensions.Contains(Path.GetExtension(info.FullName)));
+                    .Where(info => videoExtensions.Contains(Path.GetExtension(info.FullName)))
+                    .OrderBy(info => info.Name.Length)
+                    .ThenBy(info => info.Name);
 
                 foreach (var file in files)
                     yield return file;
