@@ -97,7 +97,7 @@ namespace PlaylistGenerator
 
                 var directories = currentDirectory
                     .EnumerateDirectories()
-                    .OrderBy(info => info.Name)
+                    .OrderBy(info => info.Name.Length)
                     .ThenBy(info => info.Name);
 
                 foreach (var directory in directories)
