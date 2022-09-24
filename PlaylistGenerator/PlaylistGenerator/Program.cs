@@ -187,6 +187,11 @@ namespace PlaylistGenerator
             }
         }
 
+        static readonly HashSet<string> imageExtensions = new HashSet<string>
+        {
+            ".png", ".jpg", ".jpeg"
+        };
+
         static string MakeRelativeUri(FileInfo info)
         {
             return (Uri.EscapeUriString(info.Directory.Name) + "/" + Uri.EscapeUriString(info.Name));
