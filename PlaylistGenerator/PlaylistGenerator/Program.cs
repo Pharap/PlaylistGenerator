@@ -130,7 +130,7 @@ namespace PlaylistGenerator
                     {
                         writer.WriteStartElement("trackList");
                         {
-                            WriteTrackList(writer, files);
+                            WriteTrackList(writer, directory, files);
                         }
                         writer.WriteEndElement();
                     }
@@ -152,7 +152,7 @@ namespace PlaylistGenerator
             return XmlTextWriter.Create(writerPath, settings);
         }
 
-        static void WriteTrackList(XmlWriter writer, IEnumerable<FileInfo> files, int trackStart = 1)
+        static void WriteTrackList(XmlWriter writer, DirectoryInfo root, IEnumerable<FileInfo> files, int trackStart = 1)
         {
             foreach (var pair in files.Zip(Enumerable.Range(trackStart, int.MaxValue), Tuple.Create))
             {
