@@ -105,7 +105,7 @@ namespace PlaylistGenerator
 
                 var files = currentDirectory
                     .EnumerateFiles()
-                    .Where(info => videoExtensions.Contains(Path.GetExtension(info.FullName)))
+                    .Where(info => mediaExtensions.Contains(Path.GetExtension(info.FullName)))
                     .OrderBy(info => info.Name.Length)
                     .ThenBy(info => info.Name);
 
@@ -118,6 +118,14 @@ namespace PlaylistGenerator
         {
             ".mp4", ".mkv", ".webm"
         };
+
+        static readonly HashSet<string> audioExtensions = new HashSet<string>
+        {
+            ".mp3", ".m4a", ".wav"
+        };
+
+        static readonly HashSet<string> mediaExtensions =
+            new HashSet<string>(Enumerable.Concat(videoExtensions, audioExtensions));
 
         static void Process(DirectoryInfo directory, IEnumerable<FileInfo> files)
         {
