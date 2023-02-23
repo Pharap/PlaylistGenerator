@@ -97,8 +97,7 @@ namespace PlaylistGenerator
 
                 var directories = currentDirectory
                     .EnumerateDirectories()
-                    .OrderBy(info => info.Name.Length)
-                    .ThenBy(info => info.Name);
+                    .OrderBy(info => info.Name);
 
                 foreach (var directory in directories)
                     stack.Enqueue(directory);
@@ -106,8 +105,7 @@ namespace PlaylistGenerator
                 var files = currentDirectory
                     .EnumerateFiles()
                     .Where(info => mediaExtensions.Contains(Path.GetExtension(info.FullName)))
-                    .OrderBy(info => info.Name.Length)
-                    .ThenBy(info => info.Name);
+                    .OrderBy(info => info.Name);
 
                 foreach (var file in files)
                     yield return file;
